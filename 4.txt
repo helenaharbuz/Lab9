@@ -1,0 +1,237 @@
+sing System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+/*Класс ? Одномерный массив. Дополнительно перегрузить 
+следующие операции: * ?  умножение массивов; true ? истина 
+если массив не сдержит отрицательных элементов, int() ?
+операция приведения – возвращает размер массива; == ?
+проверка на равенство; < ? сравнение.
+Методы расширения:
+1)  Проверка на содержание определённого символа в 
+строке
+2)  Удаление отрицательных элементов*/
+namespace Lab_4
+{
+    class Massiv
+    {
+        // Объявление членов класса ( массивы, длина, рандом )
+        public int[] a;
+        public int dlina;
+
+        static Random random = new Random();
+
+        // Пустой конструктор
+        public Massiv()
+        {
+            dlina = 0;
+            a = new int[0];
+        }
+
+        // Конструктор с параметром
+        public Massiv(int d)
+        {
+            dlina = d;
+            int rand;
+
+            a = new int[d];
+            for (int i = 0; i < d; i++)
+            {
+                rand = random.Next(1, 9);
+                a[i] = rand;
+            }
+        }
+
+        #region Метод вывода на экран
+        public void Show()
+        {
+            for (int i = 0; i < dlina; i++) Console.Write(a[i] + " ");
+            Console.WriteLine();
+        }
+        #endregion
+        // Перегрузка операций состоит в изменении смысла операции при использовании его с определенным классом. 
+        #region Перегрузка умножения
+
+        public static Massiv operator *(Massiv ob1, Massiv ob2)    //определения класса назначения функции
+        {
+            Massiv rezult = new Massiv(ob1.a.Length);  //опр метода, кот исп кажд раз при исп классом перегр функции
+            int y;
+            for (int i = 0; i < ob1.a.Length; i++)               //параметры в опер передаются по значению
+            {
+                y = ob1.a[i] * ob2.a[i];
+                rezult.a[i] = y;
+            }
+            return rezult;
+        }
+        #endregion
+/*Методы расширения (extension methods) позволяют добавлять новые методы в уже существующие типы
+ * без создания нового производного класса. Эта функциональность бывает особенно полезна, 
+ * когда нам хочется добавить в некоторый тип новый метод, но сам тип (класс или структуру) мы изменить не можем.*/
+#region Перегрузка < >
+public static bool operator <(Massiv ob1, Massiv ob2)
+{
+    if (ob1.a.Length < ob2.a.Length)
+        return true;
+    else
+        return false;
+}
+public static bool operator >(Massiv ob1, Massiv ob2)
+{
+    if (ob1.a.Length > ob2.a.Length)
+        return true;
+    else
+        return false;
+}
+#endregion
+
+#region Перегрузка == !=
+public static bool operator ==(Massiv ob1, Massiv ob2)
+{
+    bool rezult = true;
+
+    for (int i = ob1.a.Length - 1; i >= 0; i--)
+    {
+        if (ob1.a[i] == ob2.a[i])
+            rezult = true;
+    }
+    if (rezult)
+        return true;
+    else
+        return false;
+}
+public static bool operator !=(Massiv ob1, Massiv ob2)
+{
+    bool rezult = true;
+
+    for (int i = ob1.a.Length - 1; i >= 0; i--)
+    {
+        if (ob1.a[i] != ob2.a[i])
+            rezult = false;
+    }
+    if (!rezult)
+        return false;
+    else
+        return true;
+}
+#endregion
+
+#region true - истина если массив не сдержит отрицательных элементов
+public static bool operator true(Massiv ob1)
+{
+
+    bool rezult = true;
+    for (int i = 0; i <= ob1.a.Length; i++)
+    {
+        if (ob1.a[i] < 0)
+            rezult = false;
+    }
+    return rezult;
+}
+
+public static bool operator false(Massiv ob1)
+{
+    bool rezult = false;
+
+    for (int i = 0; i <= ob1.a.Length; i++)
+    {
+        if (ob1.a[i] > 0)
+            rezult = true;
+    }
+    return rezult;
+}
+
+#endregion
+
+#region Owner
+public class Owner
+{
+    int ID;
+    string Name;
+    string Organization;
+    public Owner(int id, string name, string org)
+    {
+        ID = id;
+        Name = name;
+        Organization = org;
+    }
+
+}
+class Date
+{
+    int d, m, y;
+    public Date(int dd, int mm, int yy)
+    {
+        d = dd;
+        m = mm;
+        y = yy;
+    }
+}
+#endregion
+}
+
+class Program
+{
+static void Main(string[] args)
+{
+    Massiv m1 = new Massiv(4);
+    m1.Show();
+    Massiv m2 = new Massiv(4);
+    m2.Show();
+    Massiv m3 = m1 * m2;
+    m3.Show();
+    Massiv.Owner m4 = new Massiv.Owner(1254, "Kate", "BSTU");
+    Console.WriteLine(m1 < m2);
+    Console.WriteLine(m2 == m3);
+    Console.WriteLine(m1.Max());
+    Console.WriteLine(m3.Dlina());
+    m2.Element(3);
+}
+}
+
+static class Math
+{
+public static int Max(this Massiv ob)
+{
+    int max = 0;
+    Massiv rezult = new Massiv(ob.a.Length);
+    for (int i = 0; i < ob.a.Length; i++)
+    {
+        if (ob.a[i] > max) max = ob.a[i];
+    }
+    return max;
+}
+public static int Dlina(this Massiv ob)
+{
+    int dlina;
+    Massiv rezult = new Massiv(ob.a.Length);
+    return dlina = ob.a.Length;
+}
+
+public static void Element(this Massiv ob, int e)
+{
+    bool t = false;
+    Massiv rezult = new Massiv(ob.a.Length);
+    for (int i = 0; i < ob.a.Length; i++)
+    {
+        if (ob.a[i] == e)
+            t = true;
+        else
+            t = false;
+    }
+    if (t) Console.WriteLine("Данное число присутствует в массиве");
+    else Console.WriteLine("Данное число отсутствует в массиве");
+}
+
+public static void DelOtr(this Massiv ob)
+{
+    Massiv rezult = new Massiv(ob.a.Length);
+
+    for (int i = 0; i <= ob.a.Length; i++)
+    {
+        if (ob.a[i] < 0)
+            ob.a[i] = 0;
+    }
+}
+}
+}
