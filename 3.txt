@@ -1,0 +1,485 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lab3
+{
+    public partial class Point
+    {
+     
+        
+        //****************************************************************
+
+        /*a)*/
+        private int x1, y1, z1; //векторы
+        /*b)*/
+        private int x2, y2, z2;
+        /*c)*/
+        private int x3, y3, z3;
+
+        public double Space;
+        public int TimesS = 0;
+
+        public int X1
+        {
+            get { return x1; }  //обращение 
+            private set { x1 = value; }  //установление
+        }
+        public int X2
+        {
+            get { return x2; }
+            private set { x2 = value; }
+        }
+        public int X3
+        {
+            get { return x3; }
+            private set { x3 = value; }
+        }
+
+        public int Y1
+        {
+            get { return y1; }
+            private set { y1 = value; }
+        }
+        public int Y2
+        {
+            get { return y2; }
+            private set { y2 = value; }
+        }
+        public int Y3
+        {
+            get { return y3; }
+            private set { y3 = value; }
+        }
+
+        public int Z1
+        {
+            get { return z1; }
+            private set { z1 = value; }
+        }
+        public int Z2
+        {
+            get { return z2; }
+            private set { z2 = value; }
+        }
+        public int Z3
+        {
+            get { return z3; }
+            private set { z3 = value; }
+        }
+
+       //**************************************************
+
+        public readonly int ID;  //переменная констансе, измененное при объявлении или в конструкторе 
+
+        //**************************************************
+
+        public static int size; //статическая переменная, описание типа, не участвует в создании 
+                                //класса,служит для описания. статик опис класс, узнаем размер
+                                //**************************************************
+                                //private Point() { }; конструктор по умолчанию , не возвращает знаение 
+
+        static Point()  //сколько элемнтов создано, начальное значение 0
+        {
+            size = 0;
+        }
+
+        public Point()
+        {
+            x1 = 1;
+            y1 = 0;
+            z1 = 0;
+
+            x2 = 0;
+            y2 = 1;
+            z2 = 0;
+
+            x3 = 0;
+            y3 = 0;
+            z3 = 1;
+
+            size++;
+
+            ID = this.GetHashCode(); //получ хэш код значения
+        }
+
+        public Point(int a1, int a2, int b1, int b2, int c1, int c2)  //конструктор не по умолчанию
+        {
+            x1 = a1;
+            y1 = a2;
+            z1 = 0;
+
+            x2 = b1;
+            y2 = b2;
+            z2 = 0;
+
+            x3 = c1;
+            y3 = c2;
+            z3 = 0;
+
+            size++;
+
+            ID = this.GetHashCode();
+        }
+
+        public Point(int a1, int a2, int a3, int b1, int b2, int b3, int c1, int c2, int c3)
+        {
+            x1 = a1;
+            y1 = a2;
+            z1 = a3;
+
+            x2 = b1;
+            y2 = b2;
+            z2 = b3;
+
+            x3 = c1;
+            y3 = c2;
+            z3 = c3;
+
+            size++;
+
+            ID = this.GetHashCode();
+        }
+
+        //**************************************************
+
+    }
+    
+    
+public partial class Point //патр позв писать класс в нескольких файлах
+    {
+        public void Points()  //метод
+        {
+            Console.WriteLine("a({0},{1},{2}), b({3},{4},{5}), c({6},{7},{8})", x1, y1, z1, x2, y2, z2, x3, y3, z3); //обращение к массиву по счету
+        }
+
+        //**************************************************
+
+        public double LenghtAB()   //метод определения длинны
+        {
+            return Math.Sqrt(Math.Pow((x2 - x1), 2) + Math.Pow((y2 - y1), 2) + Math.Pow((z2 - z1), 2));                //если просто вывод то воид
+        }
+
+        public double LenghtBC()
+        {
+            return Math.Sqrt(Math.Pow((x3 - x2), 2) + Math.Pow((y3 - y2), 2) + Math.Pow((z3 - z2), 2));
+        }
+
+        public double LenghtAC()
+        {
+            return Math.Sqrt(Math.Pow((x3 - x1), 2) + Math.Pow((y3 - y1), 2) + Math.Pow((z3 - z1), 2));
+        }
+
+        //**************************************************
+
+        public double Perimeter()
+        {
+
+            return LenghtAB() + LenghtBC() + LenghtAC();
+        }
+        //************************************************** 
+
+        public bool IsEquilateral()    //нельзя вывести на консоль, тру или фолз
+        {
+            if (LenghtAB() == LenghtBC() && LenghtBC() == LenghtAC() && LenghtAB() == LenghtAC())
+                return true;
+            else
+                return false;
+        }
+
+        public bool IsIsosceles()
+        {
+            if ((!IsEquilateral()) && (LenghtAB() == LenghtBC() || LenghtBC() == LenghtAC() || LenghtAB() == LenghtAC()))
+                return true;
+            else
+                return false;
+        }
+
+        public bool IsRight()
+        {
+            if (Math.Round(LenghtAB() * LenghtAB(), 5) == Math.Round(LenghtBC() * LenghtBC() + LenghtAC() * LenghtAC(), 5) ||
+                Math.Round(LenghtBC() * LenghtBC(), 5) == Math.Round(LenghtAB() * LenghtAB() + LenghtAC() * LenghtAC(), 5) ||
+                Math.Round(LenghtAC() * LenghtAC(), 5) == Math.Round(LenghtAB() * LenghtAB() + LenghtBC() * LenghtBC(), 5))
+                return true;
+            else
+                return false;
+        }
+
+        public bool IsArbitrary()
+        {
+            if (!IsEquilateral() && !IsIsosceles() && !IsRight())
+                return true;
+            else
+                return false;
+        }
+
+        //**************************************************
+
+        public void Info()   //просто вывод
+        {
+            string type;
+            if (IsIsosceles() && IsRight())
+                type = "равнобедренный, прямоугольный";
+            else
+             if (IsEquilateral())
+                type = "равносторонний";
+            else
+              if (IsIsosceles())
+                type = "равнобедренный";
+            else
+               if (IsRight())
+                type = "прямоугольный";
+            else
+                type = "произвольный";
+
+            Console.WriteLine("Треугольник: a({0},{1},{2}), b({3},{4},{5}), c({6},{7},{8});\n" +
+                              "Тип: {9};\n" +
+                              "Длины сторон: AB - {10}; BC - {11}; AC - {12};\n" +
+                              "Периметр: {13};\n" +
+                              "ID: {14}",
+                              x1, y1, z1, x2, y2, z2, x3, y3, z3, type, Math.Round(LenghtAB(), 3), Math.Round(LenghtBC(), 3), Math.Round(LenghtAC(), 3), Math.Round(Perimeter(), 3), ID);
+        }
+
+        public static void ClassInfo()
+        {
+            Console.WriteLine("Класс \"Point\"(Треугольник, заданный тремя точками);\n" +
+                              "Включает некоторый набор методов для вычислений(длины сторон, периметр, тип);\n" +
+                              "На данный момент задано объектов класса: {0}", size);
+        }
+
+        //**************************************************
+
+        public void AddSpace(ref int n, out double s)
+        {
+            s = Math.Round(Math.Sqrt(Perimeter() * (Perimeter() - LenghtAB()) * (Perimeter() - LenghtBC()) * (Perimeter() - LenghtAC())), 5);
+            n++;
+        }
+
+        public override bool Equals(object obj)     //переопределение класса
+        {
+            if (obj == null) return false;
+            if (obj.GetType() != this.GetType()) return false;
+            Point pnt = (Point)obj;
+            return (this.x1 == pnt.x1 &&
+                    this.x2 == pnt.x2 &&
+                    this.x3 == pnt.x3 &&
+
+                    this.y1 == pnt.y1 &&
+                    this.y2 == pnt.y2 &&
+                    this.y3 == pnt.y3 &&
+
+                    this.z1 == pnt.z1 &&
+                    this.z2 == pnt.z2 &&
+                    this.z3 == pnt.z3);
+        }
+
+        public override int GetHashCode()
+        {
+            int hash = 301;
+            hash = string.IsNullOrEmpty(x1.ToString() + x2.ToString() + x3.ToString()) ? 0 : y1.GetHashCode() + y2.GetHashCode() + y3.GetHashCode();
+            hash = (hash * 110497) + z1.GetHashCode() + z2.GetHashCode() + z3.GetHashCode();
+            return hash;
+        }
+
+
+    }
+
+    class Program
+    {
+        //Нумерация
+        static void Main(string[] args)
+        {
+            Point A1 = new Point(1, 2, 3, 4, 5, 6);
+            Point A2 = new Point(5, -2, 3, 4, -5, 6);
+            Point A0 = new Point(1, 2, 3, 4, 5, 6, 7, 8, 9);
+            Point A3 = new Point(0, 0, 3, 0, 0, 3);
+            Point A4 = new Point();
+            Point A5 = new Point(0, 0, 3, 0, 0, 3);
+
+            A1.Info();
+            Console.WriteLine();
+            A2.Info();
+            Console.WriteLine();
+            A0.Info();
+            Console.WriteLine();
+            A3.Info();
+            Console.WriteLine();
+            A4.Info();
+            Console.WriteLine();
+            A5.Info();
+            Console.WriteLine();
+
+            Console.WriteLine("Количество: {0}", Point.size);
+            Point.ClassInfo();
+
+            Console.WriteLine("x2 {0}", A3.X2);
+            Console.WriteLine("x2 {0}", A5.X2);
+            Console.WriteLine("z1 {0}", A3.Z1);
+            Console.WriteLine("z1 {0}", A5.Z1);
+
+            bool f;
+            f = A3.Equals(A1);
+            Console.WriteLine("Сравнение 1: {0}", f);
+
+            f = A3.Equals(A5);
+            Console.WriteLine("Сравнение 2: {0}", f);
+
+            Console.WriteLine("ToString: {0}", A3.ToString());
+            /*f = Point.EqualsNew(A1, A3);
+            Console.WriteLine("Сравнение 1: {0}", f);
+
+            f = Point.EqualsNew(A5, A3);
+            Console.WriteLine("Сравнение 2: {0}", f);*/
+
+            Console.WriteLine();
+
+            //**************************************************
+            //Lab2
+
+            Console.WriteLine("Lab2:");
+            Console.WriteLine("Генерация массива объектов:\n");
+            Random ran1 = new Random();
+            Point[] B = new Point[30];
+            for (int i = 0; i < 30; i++)
+            {
+                B[i] = new Point(ran1.Next(-3, 3), ran1.Next(-3, 3), ran1.Next(-3, 3), ran1.Next(-3, 3), ran1.Next(-3, 3), ran1.Next(-3, 3));
+                Console.WriteLine("№{0}", i + 1);
+                B[i].Info();
+                Console.WriteLine();
+            }
+
+            //**************************************************
+            int n = 0;
+            int imaxPerim = -1;
+            int iminPerim = -1;
+
+            for (int i = 0; i < 30; i++)
+            {
+                if (B[i].IsEquilateral())
+                {
+                    n++;
+                    if (n == 1)
+                    {
+                        imaxPerim = i;
+                        iminPerim = i;
+                    }
+                    if (n > 1)
+                    {
+                        imaxPerim = B[i].Perimeter() > B[imaxPerim].Perimeter() ? i : imaxPerim;
+                        iminPerim = B[i].Perimeter() < B[iminPerim].Perimeter() ? i : iminPerim;
+                    }
+                }
+
+            }
+
+            Console.WriteLine("Количество равносторонних треугольников: {0}\n", n);
+            if (imaxPerim != -1)
+            {
+                Console.WriteLine("Равносторонний треугольник с максимальным периметром: №{0}\n", imaxPerim);
+                B[imaxPerim].Info();
+                Console.WriteLine("Равносторонний треугольник с минимальным периметром: №{0}\n", iminPerim);
+                B[iminPerim].Info();
+            }
+
+            //**************************************************
+            n = 0;
+            imaxPerim = -1;
+            iminPerim = -1;
+
+            for (int i = 0; i < 30; i++)
+            {
+                if (B[i].IsIsosceles())
+                {
+                    n++;
+                    if (n == 1)
+                    {
+                        imaxPerim = i;
+                        iminPerim = i;
+                    }
+                    if (n > 1)
+                    {
+                        imaxPerim = B[i].Perimeter() > B[imaxPerim].Perimeter() ? i : imaxPerim;
+                        iminPerim = B[i].Perimeter() < B[iminPerim].Perimeter() ? i : iminPerim;
+                    }
+                }
+
+            }
+
+            Console.WriteLine("Количество равнобедренных треугольников: {0}\n", n);
+            if (imaxPerim != -1)
+            {
+                Console.WriteLine("Равнобедренный треугольник с максимальным периметром: №{0}\n", imaxPerim);
+                B[imaxPerim].Info();
+                Console.WriteLine("Равнобедренный треугольник с минимальным периметром: №{0}\n", iminPerim);
+                B[iminPerim].Info();
+            }
+            //**************************************************
+
+            n = 0;
+            imaxPerim = -1;
+            iminPerim = -1;
+
+            for (int i = 0; i < 30; i++)
+            {
+                if (B[i].IsRight())
+                {
+                    n++;
+                    if (n == 1)
+                    {
+                        imaxPerim = i;
+                        iminPerim = i;
+                    }
+                    if (n > 1)
+                    {
+                        imaxPerim = B[i].Perimeter() > B[imaxPerim].Perimeter() ? i : imaxPerim;
+                        iminPerim = B[i].Perimeter() < B[iminPerim].Perimeter() ? i : iminPerim;
+                    }
+                }
+
+            }
+
+            Console.WriteLine("Количество прямоугольных треугольников: {0}\n", n);
+            if (imaxPerim != -1)
+            {
+                Console.WriteLine("Прямоугольный треугольник с максимальным периметром: №{0}\n", imaxPerim);
+                B[imaxPerim].Info();
+                Console.WriteLine("Прямоугольный треугольник с минимальным периметром: №{0}\n", iminPerim);
+                B[iminPerim].Info();
+            }
+            //**************************************************
+            n = 0;
+            imaxPerim = -1;
+            iminPerim = -1;
+
+            for (int i = 0; i < 30; i++)
+            {
+                if (B[i].IsArbitrary())
+                {
+                    n++;
+                    if (n == 1)
+                    {
+                        imaxPerim = i;
+                        iminPerim = i;
+                    }
+                    if (n > 1)
+                    {
+                        imaxPerim = B[i].Perimeter() > B[imaxPerim].Perimeter() ? i : imaxPerim;
+                        iminPerim = B[i].Perimeter() < B[iminPerim].Perimeter() ? i : iminPerim;
+                    }
+                }
+            }
+
+            Console.WriteLine("Количество произвольных треугольников: {0}\n", n);
+            if (imaxPerim != -1)
+            {
+                Console.WriteLine("Произвольный треугольник с максимальным периметром: №{0}\n", imaxPerim);
+                B[imaxPerim].Info();
+                Console.WriteLine("Произвольный треугольник с минимальным периметром: №{0}\n", iminPerim);
+                B[iminPerim].Info();
+            }
+
+        }
+    }
+}
